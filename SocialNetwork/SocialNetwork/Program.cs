@@ -1,50 +1,43 @@
-﻿using SocialNetwork.BLL.Modules;
+﻿using SocialNetwork.BLL.Exceptions;
+using SocialNetwork.BLL.Modules;
 using SocialNetwork.BLL.Services;
+using SocialNetwork.PLL.Views;
 using System;
 
 namespace SocialNetwork
 {
     class Program
     {
-        public static UserService userService = new();
+        static MessageService messageService;
+        static UserService userService;
+        public static MainView mainView;
+        public static RegistrationView registrationView;
+        public static AuthentificationView authenticationView;
+        public static UserMenuView userMenuView;
+        public static UserInfoView userInfoView;
+        public static UserDataUpdateView userDataUpdateView;
+        public static MessageSendingView messageSendingView;
+        public static UserIncomingMessageView userIncomingMessageView;
+        public static UserOutcomingMessageView userOutcomingMessageView;
 
         static void Main()
         {
-            Console.WriteLine("Welcome to Socialnaya Set!");
-            
-            while (true)
-            {
-                Console.WriteLine("Enter first name to start user registration: ");
-                string firstName = Console.ReadLine();
-                Console.Write("last name: ");
-                string lastName = Console.ReadLine();
-                Console.Write("password: ");
-                string password = Console.ReadLine();
-                Console.Write("email: ");
-                string email = Console.ReadLine();
+            Console.InputEncoding = Console.OutputEncoding = System.Text.Encoding.Unicode;
 
-                UserRegistrationData userRegistrationData = new()
-                {
-                    FirstName = firstName,
-                    LastName = lastName,
-                    Password = password,
-                    Email = email
-                };
+            userService = new UserService();
+            messageService = new MessageService();
 
-                try
-                {
-                    userService.Register(userRegistrationData);
-                    Console.WriteLine("Signed up successfully");
-                }
-                catch (ArgumentNullException)
-                {
-                    Console.WriteLine("Please enter data correctly");
-                }
-                catch (Exception)
-                {
-                    Console.WriteLine("Registration error occured");
-                }
-            }
+            mainView = new MainView();
+            registrationView = new RegistrationView(userService);
+            authenticationView = new AuthentificationView(userService);
+            userMenuView = new UserMenuView(userService);
+            userInfoView = new UserInfoView();
+            userDataUpdateView = new UserDataUpdateView(userService);
+            messageSendingView = new MessageSendingView(userService, messageService);
+            userIncomingMessageView = new UserIncomingMessageView();
+            userOutcomingMessageView = new UserOutcomingMessageView();
+
+            while (true) mainView.Show();
         }
     }
 }
