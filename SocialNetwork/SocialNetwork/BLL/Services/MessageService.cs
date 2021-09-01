@@ -59,7 +59,7 @@ namespace SocialNetwork.BLL.Services
             if (findUserEntity is null)
                 throw new UserNotFoundException();
 
-            var messageEntity = new MessageEntity()
+            MessageEntity messageEntity = new MessageEntity()
             {
                 content = messageSendingData.Content,
                 sender_id = messageSendingData.SenderId,

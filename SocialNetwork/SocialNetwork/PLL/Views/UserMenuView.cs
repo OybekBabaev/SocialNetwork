@@ -38,6 +38,9 @@ namespace SocialNetwork.PLL.Views
                     case "2":
                         Program.userDataUpdateView.Show(user);
                         break;
+                    case "3":
+                        Program.friendAddingView.Show(user);
+                        break;
                     case "4":
                         Program.messageSendingView.Show(user);
                         break;
